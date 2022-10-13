@@ -1,0 +1,25 @@
+Description: fix for mkdirp ≥ 1
+Author: Xavier Guimard <yadd@debian.org>
+Forwarded: https://github.com/npm/copy-concurrently/pull/16
+Last-Update: 2020-10-21
+
+--- a/copy.js
++++ b/copy.js
+@@ -50,7 +50,7 @@
+   if (!opts.chmod) opts.chmod = promisify(opts.Promise, fs.chmod)
+ 
+   opts.top = from
+-  opts.mkdirpAsync = promisify(opts.Promise, mkdirp)
++  opts.mkdirpAsync = mkdirp
+   var rimrafAsync = promisify(opts.Promise, rimraf)
+ 
+   var queue = new RunQueue({
+@@ -126,7 +126,7 @@
+   var fs = opts.fs || nodeFs
+   var chown = opts.chown || promisify(Promise, fs.chown)
+   var readdir = opts.readdir || promisify(Promise, fs.readdir)
+-  var mkdirpAsync = opts.mkdirpAsync || promisify(Promise, mkdirp)
++  var mkdirpAsync = opts.mkdirpAsync || mkdirp
+ 
+   return mkdirpAsync(to, {fs: fs, mode: opts.mode}).then(function () {
+     var getuid = opts.getuid || process.getuid
